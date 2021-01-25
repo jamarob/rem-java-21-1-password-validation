@@ -70,4 +70,22 @@ public class PasswordValidationTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource
+    public void testValidateMultiplePasswords(int minimumLength, String[] passwords, boolean expected){
+        boolean actual = PasswordValidator.validate(minimumLength, passwords);
+
+        assertEquals(actual, expected);
+    }
+
+    private static Stream<Arguments> testValidateMultiplePasswords(){
+        return Stream.of(
+                Arguments.of(
+                    8, new String[]{"passW0rt", "SuperPasswort42", "passwort"}, false
+                ),
+                Arguments.of(
+                        8, new String[]{"passW0rt", "SuperPasswort42", "Passwort123"}, true
+                )
+        );
+    }
 }
